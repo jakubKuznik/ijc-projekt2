@@ -17,3 +17,17 @@
  * 2-258 bytes file_name 
  */
 int arg_parser(int argc, char *argv[], char arguments[]);
+
+/**
+ * Just copy from to 
+ * from[][] is 
+ * return -1 if limit was reached
+ */
+int copy_from_to(char *from[], char to[], int first_index, int limit, int from_start_byte, int to_start_byte);
+
+
+/**
+ * Check if array of given size has just number
+ * return -1 if error 
+ */
+int check_if_array_is_digit(char array[], int size, int plus_sign);
