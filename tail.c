@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 #include "tail.h"
 
 //Indicate if there is + in -n +10 argument
@@ -42,12 +44,26 @@ int main(int argc, char *argv[])
     //TODO check if file exist function 
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
     {
-        printf("file entred. ");
+        file = fopen(argv[arguments[POSITION_IN_ARGV]], "r");
+        if(file == NULL) //check if fopen was succesfull 
+            goto error_1;
+    
     }
+    
+    
 
     printf("%d",n);
-    //fclose(file);
+    if(arguments[IS_THERE_A_FILE_POSITION] == 1)
+        fclose(file);
+
     return 0;
+
+
+error_1:
+    fprintf(stderr, "File does not exist.\n");
+    return -1;
+
+
 }
 
 /**
@@ -109,8 +125,12 @@ int arg_parser(int argc, char *argv[], int arguments[])
 
     if(atoi(help) > INT_MAX || atoi(help) < 0)
         goto error_4;
-
+    
+    for(int i = 0; help[i] != '\0';i++)
+        printf("%c",help[i]);
+    
     n = atoi(help);
+    printf("%d\n",n);
     return n;
 
 
@@ -147,7 +167,7 @@ int copy_from_to(char *from[], char to[], int first_index, int limit, int from_s
     {
         if(j > limit)
             return -1;
-        to[to_start_byte + j] = from[first_index][j];
+        to[to_start_byte + (j-from_start_byte)] = from[first_index][j];
     }
     return 0;
 }
