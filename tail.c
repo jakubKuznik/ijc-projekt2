@@ -16,14 +16,11 @@
 //It is on byte one if value is 1 there is plus sign 
 #define PLUS 1 
 #define IS_THERE_FILE 2 //if file was on intput set to 1
-
 #define SIGN_INDICATOR_POSITION 0
 #define IS_THERE_A_FILE_POSITION 1 // 1 byte is true or false and second i in argv[i]
 #define POSITION_IN_ARGV 2
-
 #define MAX_ROWS_DIGIT 12 // 1000 = 10 * 10^12
 #define INT_MAX 2147483647
-
 #define MAX_LINE_SIZE 511
 
 int main(int argc, char *argv[])
@@ -35,38 +32,34 @@ int main(int argc, char *argv[])
     arguments[SIGN_INDICATOR_POSITION] = arguments[IS_THERE_A_FILE_POSITION] = 0;
     
     int n = arg_parser(argc, argv, arguments);
-
     if (n == -1)    // Parsing error 
         return -1;
-    else if(n == -2) //no arguments looking for stdin 
-    {
-        //read from stdin 
-        n = 10;
-        tail(stdin, n, arguments[SIGN_INDICATOR_POSITION]);
-    }
-
-    //TODO check if file exist function 
+    
+    //if there is file try to open 
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
     {
         file = fopen(argv[arguments[POSITION_IN_ARGV]], "r");
         if(file == NULL) //check if fopen was succesfull 
             goto error_1;
-        tail(file, n, arguments[SIGN_INDICATOR_POSITION]);
-
+        if(tail(file, n, arguments[SIGN_INDICATOR_POSITION]) == -1)
+            goto error_2;
     }
-    
+    else // if there is no file read from stdin
+        if(tail(stdin, n, arguments[SIGN_INDICATOR_POSITION]) == -1)
+            goto error_2;
 
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
         fclose(file);
-
     return 0;
 
-
 error_1:
-    fprintf(stderr, "File does not exist.\n");
+    fprintf(stderr, "Error cannot open file.\n");
     return -1;
-
-
+error_2:
+    fprintf(stderr,"Error buffer overflow. Line cant have more 511 characters.");
+    if(arguments[IS_THERE_A_FILE_POSITION] == 1)
+        fclose(file);
+    return -1;
 }
 
 /**
@@ -92,8 +85,6 @@ int tail(FILE *file, int n, int plus_sign)
         }
         if(position_in_file == 0)
             fseek(file, 0, SEEK_SET);
-        while (fgets(buffer, sizeof(buffer), file) != NULL) 
-            printf("%s", buffer);  
     }
     else // plus sign was placed something like -n +100
     {
@@ -108,10 +99,18 @@ int tail(FILE *file, int n, int plus_sign)
                     break;
             }
         }
-        
-        while (fgets(buffer, sizeof(buffer), file) != NULL) 
-            printf("%s", buffer);  
     }
+    
+    
+    int line_lenght = 0;
+    while (fgets(buffer, sizeof(buffer), file) != NULL)
+    {
+        line_lenght = strlen(buffer);
+        if((buffer[line_lenght-1] != '\n') && (buffer[line_lenght-1] != EOF))
+            return -1; 
+        printf("%s", buffer);  
+    } 
+    return 0;
 }
 
 
@@ -133,7 +132,7 @@ int arg_parser(int argc, char *argv[], int arguments[])
     bool n_is_there = false;
     
     if(argc == 1) // No arguments
-        return -2;
+        return n;
 
     // Go throw all the argv[] loking for:
     // -n [+]number file 
@@ -186,7 +185,7 @@ int arg_parser(int argc, char *argv[], int arguments[])
 
 //////////////ERRORS 
 error_1:
-    fprintf(stderr, "Error there has to be digit after -n.\n");
+    fprintf(stderr, "Error there has to be positive digit after -n.\n");
     return -1;
 
 error_2:
