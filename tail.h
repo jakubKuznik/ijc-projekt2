@@ -5,4 +5,15 @@
 // Header file for tail.c 
 
 
-int arg_parser(int argc, char *argv[]);
+
+/**
+ * Parse arguments. 
+ * return -1 error 
+ * else return -n number positio
+ * 
+ * argument[]
+ * 0. byte plus sign indicator 
+ * 1. Is there a file indicatro 
+ * 2-258 bytes file_name 
+ */
+int arg_parser(int argc, char *argv[], char arguments[]);
