@@ -1,7 +1,7 @@
 # ijc-projekt2
 
-Popis
-	Repozitář obsahuje 2 vyřešené úlohy.
+ULOHA 1: tail utilita
+Vypíše n posledních řádku souboru, nebo při přidání '+' vypíše soubor od n řádku do konce. Není-li zadán soubor očekává vstup ze stdin.
 
 JMÉNO
 
@@ -10,3 +10,6 @@ JMÉNO
 POUŽITÍ
 
     tail [-n [+]number] [file_name] 
+
+
+
