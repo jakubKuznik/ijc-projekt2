@@ -16,7 +16,7 @@
  * 1. Is there a file indicatro 
  * 2-258 bytes file_name 
  */
-int arg_parser(int argc, char *argv[], char arguments[]);
+int arg_parser(int argc, char *argv[], int arguments[]);
 
 /**
  * Just copy from to 

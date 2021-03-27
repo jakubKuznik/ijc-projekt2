@@ -11,21 +11,21 @@
 //Indicate if there is + in -n +10 argument
 //It is on byte one if value is 1 there is plus sign 
 #define PLUS 1 
-#define IS_THERE_FILE 1 //if file was on intput set to 1
-#define FILE_NAME_MAX_SIZE 256
+#define IS_THERE_FILE 2 //if file was on intput set to 1
 
 #define SIGN_INDICATOR_POSITION 0
-#define IS_THERE_A_FILE_POSITION 1
-#define FILE_NAME_START_BYTE 2
+#define IS_THERE_A_FILE_POSITION 1 // 1 byte is true or false and second i in argv[i]
+#define POSITION_IN_ARGV 2
 
 #define MAX_ROWS_DIGIT 12 // 1000 = 10 * 10^12
 #define INT_MAX 2147483647
 
 int main(int argc, char *argv[])
 {
+    FILE *file = NULL;
 
     // 0. byte plus sign indicator // 1. Is there a file indicatro // 2-258 bytes file_name 
-    char arguments[PLUS + IS_THERE_FILE + FILE_NAME_MAX_SIZE] = {0};
+    int arguments[PLUS + IS_THERE_FILE] = {0};
     arguments[SIGN_INDICATOR_POSITION] = arguments[IS_THERE_A_FILE_POSITION] = 0;
     
     char *buffer = NULL;
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     }
 
     printf("%d",n);
-
+    //fclose(file);
     return 0;
 }
 
@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
  * argument[]
  * 0. byte plus sign indicator 
  * 1. Is there a file indicatro 
- * 2-258 bytes file_name 
+ * 2. file position in argv
  */
-int arg_parser(int argc, char *argv[], char arguments[])
+int arg_parser(int argc, char *argv[], int arguments[])
 {
     int n = 10;
-    char help[MAX_ROWS_DIGIT] = {0}; //tempo variable where number will be stored 
+    char help[MAX_ROWS_DIGIT] = {0}; //tempo variable where number will n be stored 
     
     if(argc == 1) // No arguments
         return -2;
@@ -98,10 +98,8 @@ int arg_parser(int argc, char *argv[], char arguments[])
         {
             if(arguments[IS_THERE_A_FILE_POSITION] == 1) //multiple file names 
                 goto error_3;
-            
             arguments[IS_THERE_A_FILE_POSITION] = 1;
-            if(copy_from_to(argv, arguments, i, FILENAME_MAX, FILE_NAME_START_BYTE, 0) == -1)
-                goto error_5;
+            arguments[POSITION_IN_ARGV] = i;
         }
     }
 
@@ -113,8 +111,6 @@ int arg_parser(int argc, char *argv[], char arguments[])
         goto error_4;
 
     n = atoi(help);
-
-
     return n;
 
 
