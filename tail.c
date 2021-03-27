@@ -101,15 +101,27 @@ int tail(FILE *file, int n, int plus_sign)
         }
     }
     
-    
+    bool error = false;
     int line_lenght = 0;
     while (fgets(buffer, sizeof(buffer), file) != NULL)
     {
         line_lenght = strlen(buffer);
         if((buffer[line_lenght-1] != '\n') && (buffer[line_lenght-1] != EOF))
-            return -1; 
+        {
+            int position_in_file = ftell(file); //geting actual file position
+            while (position_in_file != 0)
+            {
+                fseek(file, position_in_file++, SEEK_SET); /* seek from begin */
+                if (fgetc(file) == '\n' || fgetc(file) == EOF) 
+                    break;
+            }
+            fseek(file, position_in_file-1, SEEK_SET);
+            error = true; 
+        }
         printf("%s", buffer);  
-    } 
+    }
+    if(error == true)
+        return -1; 
     return 0;
 }
 
