@@ -1,7 +1,6 @@
 # ijc-projekt2
 
 Popis
-	
 	Repozitář obsahuje 2 vyřešené úlohy.
 
 JMÉNO
