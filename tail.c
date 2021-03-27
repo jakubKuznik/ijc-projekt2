@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 #include "tail.h"
 
@@ -22,15 +24,16 @@
 #define MAX_ROWS_DIGIT 12 // 1000 = 10 * 10^12
 #define INT_MAX 2147483647
 
+#define MAX_LINE_SIZE 511
+
 int main(int argc, char *argv[])
 {
     FILE *file = NULL;
 
-    // 0. byte plus sign indicator // 1. Is there a file indicatro // 2-258 bytes file_name 
+    // 0. byte plus sign indicator // 1. Is there a file indicatro // file positon in argv 
     int arguments[PLUS + IS_THERE_FILE] = {0};
     arguments[SIGN_INDICATOR_POSITION] = arguments[IS_THERE_A_FILE_POSITION] = 0;
     
-    char *buffer = NULL;
     int n = arg_parser(argc, argv, arguments);
 
     if (n == -1)    // Parsing error 
@@ -39,6 +42,7 @@ int main(int argc, char *argv[])
     {
         //read from stdin 
         n = 10;
+        tail(stdin, n, arguments[SIGN_INDICATOR_POSITION]);
     }
 
     //TODO check if file exist function 
@@ -47,12 +51,11 @@ int main(int argc, char *argv[])
         file = fopen(argv[arguments[POSITION_IN_ARGV]], "r");
         if(file == NULL) //check if fopen was succesfull 
             goto error_1;
-    
+        tail(file, n, arguments[SIGN_INDICATOR_POSITION]);
+
     }
     
-    
 
-    printf("%d",n);
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
         fclose(file);
 
@@ -65,6 +68,52 @@ error_1:
 
 
 }
+
+/**
+ * Print last n lines to stdout 
+ * printf from n +num to end of file 
+ * plus sign = 1 means there was a + sign 
+ */
+int tail(FILE *file, int n, int plus_sign)
+{
+    char buffer[MAX_LINE_SIZE] = {0};
+
+    if(plus_sign == 0)
+    {
+        fseek(file, 0, SEEK_END);           //get pointer to end of file 
+        int position_in_file = ftell(file); //geting actual file position
+        int coun_lines = 0;
+        while (position_in_file != 0)
+        {
+            fseek(file, --position_in_file, SEEK_SET); /* seek from begin */
+            if (fgetc(file) == '\n') 
+                if (coun_lines++ >= n) 
+                    break;
+        }
+        if(position_in_file == 0)
+            fseek(file, 0, SEEK_SET);
+        while (fgets(buffer, sizeof(buffer), file) != NULL) 
+            printf("%s", buffer);  
+    }
+    else // plus sign was placed something like -n +100
+    {
+        fseek(file, 0, SEEK_SET);          //get pointer to end of file 
+        int counter = 1;
+        if (n != 0)
+        {
+            while(counter < n)
+            {
+                counter++;
+                if(fgets(buffer, sizeof(buffer),file) == NULL)
+                    break;
+            }
+        }
+        
+        while (fgets(buffer, sizeof(buffer), file) != NULL) 
+            printf("%s", buffer);  
+    }
+}
+
 
 /**
  * Parse arguments. 
@@ -81,6 +130,7 @@ int arg_parser(int argc, char *argv[], int arguments[])
 {
     int n = 10;
     char help[MAX_ROWS_DIGIT] = {0}; //tempo variable where number will n be stored 
+    bool n_is_there = false;
     
     if(argc == 1) // No arguments
         return -2;
@@ -91,6 +141,7 @@ int arg_parser(int argc, char *argv[], int arguments[])
     {		
         if(strcmp(argv[i], "-n")==0)
         {
+            n_is_there = true;    
             if(i < argc - 1)
             {
                 if(argv[i+1][0] == '+')
@@ -119,18 +170,17 @@ int arg_parser(int argc, char *argv[], int arguments[])
         }
     }
 
-    //check if number in (-n number) is number.
-    if(check_if_array_is_digit(help, MAX_ROWS_DIGIT, arguments[SIGN_INDICATOR_POSITION]) == -1)
-        goto error_1;
+    if(n_is_there)
+    {
+        if(check_if_array_is_digit(help, MAX_ROWS_DIGIT, arguments[SIGN_INDICATOR_POSITION]) == -1)
+            goto error_1;
 
-    if(atoi(help) > INT_MAX || atoi(help) < 0)
-        goto error_4;
-    
-    for(int i = 0; help[i] != '\0';i++)
-        printf("%c",help[i]);
-    
-    n = atoi(help);
-    printf("%d\n",n);
+        if(atoi(help) > INT_MAX || atoi(help) < 0)
+            goto error_4;
+        
+        n = atoi(help);
+    }
+    //check if number in (-n number) is number.
     return n;
 
 
@@ -151,9 +201,6 @@ error_4:
     fprintf(stderr, "Number has to be positive. Or number is to big.\n");
     return -1;
 
-error_5:
-    fprintf(stderr, "Error to big file name \n");
-    return -1;
 }
 
 /**
@@ -179,7 +226,7 @@ int copy_from_to(char *from[], char to[], int first_index, int limit, int from_s
 int check_if_array_is_digit(char array[], int size, int plus_sign)
 {
     int j = 0;
-    if(plus_sign = 1)
+    if(plus_sign == 1)
         j++;
 
     for(; (j < size) && (array[j] != '\0'); j++)

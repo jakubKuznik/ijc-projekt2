@@ -31,3 +31,11 @@ int copy_from_to(char *from[], char to[], int first_index, int limit, int from_s
  * return -1 if error 
  */
 int check_if_array_is_digit(char array[], int size, int plus_sign);
+
+
+/**
+ * Print last n lines to stdout 
+ * printf from n +num to end of file 
+ * plus sign = 1 means there was a + sign 
+ */
+int tail(FILE *file, int n, int plus_sign);
