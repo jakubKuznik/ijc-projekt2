@@ -5,6 +5,17 @@
 // Header file for tail.c 
 
 
+/**
+ * Write lines from eof to eof - n line  
+ * Posix tail function. using dynamicly alocated cyclic buffer.
+ */
+int tail(FILE *file, long int n);
+
+/**
+ * Write lines from n to end of file  
+ * Posix tail function. using dynamicly alocated cyclic buffer.
+ */
+int tail_plus(FILE *file, long int n);
 
 /**
  * Parse arguments. 
@@ -16,7 +27,7 @@
  * 1. Is there a file indicatro 
  * 2-258 bytes file_name 
  */
-int arg_parser(int argc, char *argv[], int arguments[]);
+long int arg_parser(int argc, char *argv[], int arguments[]);
 
 /**
  * Just copy from to 
@@ -38,4 +49,4 @@ int check_if_array_is_digit(char array[], int size, int plus_sign);
  * printf from n +num to end of file 
  * plus sign = 1 means there was a + sign 
  */
-int tail(FILE *file, int n, int plus_sign);
+//int tail_fseek(FILE *file, int n, int plus_sign);

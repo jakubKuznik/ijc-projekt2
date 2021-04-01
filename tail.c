@@ -2,7 +2,10 @@
 // File:        tail.c
 // Author:      Jakub Kuzník, FIT
 // Compiled:    gcc 9.9.3.0
-// Works like posix tail if does not get file read from stdin.  
+// Works like posix tail if does not get file read from stdin. 
+
+//UDĚLAL JSEM JEDNO ŘEŠENÍ NAVÍC PŘES FSEEK. FUNKCE JE ODKOMENTOVÁNÁ. tail_fseek()
+//ARGUMENTY SE MOHOU ZADAT V LIBOVOLNÉM POŘADÍ.
 
 #include <stdio.h>
 #include <string.h>
@@ -20,37 +23,46 @@
 #define IS_THERE_A_FILE_POSITION 1 // 1 byte is true or false and second i in argv[i]
 #define POSITION_IN_ARGV 2
 #define MAX_ROWS_DIGIT 12 // 1000 = 10 * 10^12
-#define INT_MAX 2147483647
 #define MAX_LINE_SIZE 512
 
 int main(int argc, char *argv[])
 {
-    FILE *file = NULL;
+    FILE *file = NULL; //Program ll write file tail
 
     // 0. byte plus sign indicator // 1. Is there a file indicatro // file positon in argv 
     int arguments[PLUS + IS_THERE_FILE] = {0};
     arguments[SIGN_INDICATOR_POSITION] = arguments[IS_THERE_A_FILE_POSITION] = 0;
     
-    int n = arg_parser(argc, argv, arguments);
+    long int n = arg_parser(argc, argv, arguments);
     if (n == -1)    // Parsing error 
         return -1;
-    
+    else if (n < 1)
+        goto error_3;
+
     //if there is file try to open 
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
     {
         file = fopen(argv[arguments[POSITION_IN_ARGV]], "r");
         if(file == NULL) //check if fopen was succesfull 
             goto error_1;
-        if(tail(file, n, arguments[SIGN_INDICATOR_POSITION]) == -1)
-            goto error_2;
     }
     else // if there is no file read from stdin
-        if(tail(stdin, n, arguments[SIGN_INDICATOR_POSITION]) == -1)
+        file = stdin;
+    
+    //call actual tail functions
+    if(arguments[SIGN_INDICATOR_POSITION] == 1) //if there is plus symbol 
+        if(tail_plus(file, n) == -1)
+            goto error_2;
+    else
+        if(tail(file, n) == -1)
             goto error_2;
 
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
         fclose(file);
     return 0;
+
+
+
 
 error_1:
     fprintf(stderr, "Error cannot open file.\n");
@@ -60,47 +72,27 @@ error_2:
     if(arguments[IS_THERE_A_FILE_POSITION] == 1)
         fclose(file);
     return -1;
+error_3:
+    fprintf(stderr, "Error n has to be bigger than > 0.\n");
+    return -1;
+
 }
 
-/**
- * Print last n lines to stdout 
- * printf from n +num to end of file 
- * plus sign = 1 means there was a + sign 
- */
-int tail(FILE *file, int n, int plus_sign)
-{
-    char buffer[MAX_LINE_SIZE] = {0};
 
-    if(plus_sign == 0)
+/**
+ * Write lines from n to end of file  
+ * Posix tail function. using dynamicly alocated cyclic buffer.
+ */
+int tail_plus(FILE *file, long int n)
+{
+    int counter = 1;
+    char buffer[MAX_LINE_SIZE] = {0};
+    while(counter < n)
     {
-        fseek(file, 0, SEEK_END);           //get pointer to end of file 
-        int position_in_file = ftell(file); //geting actual file position
-        int coun_lines = 0;
-        while (position_in_file != 0)
-        {
-            fseek(file, --position_in_file, SEEK_SET); /* seek from begin */
-            if (fgetc(file) == '\n') 
-                if (coun_lines++ >= n) 
-                    break;
-        }
-        if(position_in_file == 0)
-            fseek(file, 0, SEEK_SET);
+        counter++;
+        if(fgets(buffer, sizeof(buffer),file) == NULL)
+            break;
     }
-    else // plus sign was placed something like -n +100
-    {
-        fseek(file, 0, SEEK_SET);          //get pointer to end of file 
-        int counter = 1;
-        if (n != 0)
-        {
-            while(counter < n)
-            {
-                counter++;
-                if(fgets(buffer, sizeof(buffer),file) == NULL)
-                    break;
-            }
-        }
-    }
-    
     bool error = false;
     int line_lenght = 0;
     while (fgets(buffer, sizeof(buffer), file) != NULL)
@@ -111,7 +103,7 @@ int tail(FILE *file, int n, int plus_sign)
             int position_in_file = ftell(file); //geting actual file position
             while (position_in_file != 0)
             {
-                fseek(file, position_in_file++, SEEK_SET); /* seek from begin */
+                fseek(file, position_in_file++, SEEK_SET); // seek from begin 
                 if (fgetc(file) == '\n' || fgetc(file) == EOF) 
                     break;
             }
@@ -124,7 +116,19 @@ int tail(FILE *file, int n, int plus_sign)
         return -1; 
     return 0;
 }
+/**
+ * Write lines from eof to eof - n line  
+ * Posix tail function. using dynamicly alocated cyclic buffer.
+ */
+int tail(FILE *file, long int n)
+{
+    //char *buff[] = (char**)calloc()
 
+
+
+
+    return 0;
+}
 
 /**
  * Parse arguments. 
@@ -137,7 +141,7 @@ int tail(FILE *file, int n, int plus_sign)
  * 1. Is there a file indicatro 
  * 2. file position in argv
  */
-int arg_parser(int argc, char *argv[], int arguments[])
+long int arg_parser(int argc, char *argv[], int arguments[])
 {
     int n = 10;
     char help[MAX_ROWS_DIGIT] = {0}; //tempo variable where number will n be stored 
@@ -186,7 +190,7 @@ int arg_parser(int argc, char *argv[], int arguments[])
         if(check_if_array_is_digit(help, MAX_ROWS_DIGIT, arguments[SIGN_INDICATOR_POSITION]) == -1)
             goto error_1;
 
-        if(atoi(help) > INT_MAX || atoi(help) < 0)
+        if(atoi(help) < 0)
             goto error_4;
         
         n = atoi(help);
@@ -246,3 +250,67 @@ int check_if_array_is_digit(char array[], int size, int plus_sign)
     return 0;
 
 }
+
+/**
+ * WORKS WITH FSEEK 
+ * printf from n +num to end of file 
+ * plus sign = 1 means there was a + sign 
+ */
+/*
+int tail_fseek(FILE *file, int n, int plus_sign)
+{
+    char buffer[MAX_LINE_SIZE] = {0};
+
+    if(plus_sign == 0)
+    {
+        fseek(file, 0, SEEK_END);           //get pointer to end of file 
+        int position_in_file = ftell(file); //geting actual file position
+        int coun_lines = 0;
+        while (position_in_file != 0)
+        {
+            fseek(file, --position_in_file, SEEK_SET); // seek from begin 
+            if (fgetc(file) == '\n') 
+                if (coun_lines++ >= n) 
+                    break;
+        }
+        if(position_in_file == 0)
+            fseek(file, 0, SEEK_SET);
+    }
+    else // plus sign was placed something like -n +100
+    {
+        int counter = 1;
+        if (n != 0)
+        {
+            while(counter < n)
+            {
+                counter++;
+                if(fgets(buffer, sizeof(buffer),file) == NULL)
+                    break;
+            }
+        }
+    }
+    
+    bool error = false;
+    int line_lenght = 0;
+    while (fgets(buffer, sizeof(buffer), file) != NULL)
+    {
+        line_lenght = strlen(buffer);
+        if((buffer[line_lenght-1] != '\n') && (buffer[line_lenght-1] != EOF))
+        {
+            int position_in_file = ftell(file); //geting actual file position
+            while (position_in_file != 0)
+            {
+                fseek(file, position_in_file++, SEEK_SET); // seek from begin 
+                if (fgetc(file) == '\n' || fgetc(file) == EOF) 
+                    break;
+            }
+            fseek(file, position_in_file-1, SEEK_SET);
+            error = true; 
+        }
+        printf("%s", buffer);  
+    }
+    if(error == true)
+        return -1; 
+    return 0;
+}
+*/
