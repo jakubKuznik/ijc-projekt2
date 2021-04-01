@@ -3,7 +3,7 @@ LD = gcc
 
 CFLAGS = -g -std=c99 -pedantic -Wall -Wextra   
 OBJLIB = htab_bucket_count.o htab_clear.o htab_erase.o htab_find.o htab_for_each.o htab_free.o \
-htab_hash_function.o htab_init.o htab_lookup_adc.o htab_move.o htab_size.o 
+htab_hash_function.o htab_init.o htab_lookup_add.o htab_move.o htab_size.o 
 all: tail wordcount wordcount-dynamic
 #$< jmeno první závislosti		#$@ jmeno cile 		#$^ jmena vsech zavislosti
 
@@ -47,7 +47,7 @@ htab_hash_function.o: htab_hash_function.c
 	gcc $(CFLAGS) -fPIC -c $< -o $@ 
 htab_init.o: htab_init.c
 	gcc $(CFLAGS) -fPIC -c $< -o $@ 
-htab_lookup_adc.o: htab_lookup_adc.c
+htab_lookup_add.o: htab_lookup_add.c
 	gcc $(CFLAGS) -fPIC -c $< -o $@ 
 htab_move.o: htab_move.c
 	gcc $(CFLAGS) -fPIC -c $< -o $@ 
