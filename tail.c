@@ -21,7 +21,7 @@
 #define POSITION_IN_ARGV 2
 #define MAX_ROWS_DIGIT 12 // 1000 = 10 * 10^12
 #define INT_MAX 2147483647
-#define MAX_LINE_SIZE 511
+#define MAX_LINE_SIZE 512
 
 int main(int argc, char *argv[])
 {
