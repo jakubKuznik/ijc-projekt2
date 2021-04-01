@@ -95,18 +95,21 @@ int tail_plus(FILE *file, long int n)
     }
     bool error = false;
     int line_lenght = 0;
+    
     while (fgets(buffer, sizeof(buffer), file) != NULL)
     {
         line_lenght = strlen(buffer);
         if((buffer[line_lenght-1] != '\n') && (buffer[line_lenght-1] != EOF))
         {
-            int position_in_file = ftell(file); //geting actual file position
-            while (position_in_file != 0)
+            int c = 0; 
+            while(true)
             {
-                fseek(file, position_in_file++, SEEK_SET); // seek from begin 
-                if (fgetc(file) == '\n' || fgetc(file) == EOF) 
+                c = fgetc(file);
+                if (c == '\n' || c == EOF) 
                     break;
             }
+
+            int position_in_file = ftell(file); //geting actual file position
             fseek(file, position_in_file-1, SEEK_SET);
             error = true; 
         }
