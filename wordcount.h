@@ -11,38 +11,6 @@
 
 #define MAX_WORD_SIZE 128
 
-/*
-+----------+
-| size     | // aktuální počet záznamů [(key,data),next]
-+----------+
-| arr_size | // velikost následujícího pole ukazatelů
-+----------+
-+---+
-|ptr|-->[(key,data),next]-->[(key,data),next]-->[(key,data),next]--|
-+---+
-|ptr|--|
-+---+
-|ptr|-->[(key,data),next]-->[(key,data),next]--|
-+---+
-|ptr|--|
-+---+
-*/
-struct htab
-{
-    size_t size;
-    size_t arr_size;
-    htab_pair_t arr[];
-};
-
-
-typedef struct htab_item htab_item_t;
-//zaznam [(key,value), next]
-struct htab_item
-{
-    htab_pair_t pair;
-    htab_item_t *next;
-
-};
 
 
 /**
