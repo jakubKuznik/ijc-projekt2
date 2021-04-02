@@ -7,7 +7,6 @@
 //ARGUMENTY SE MOHOU ZADAT V LIBOVOLNÉM POŘADÍ.
 
 #include "wordcount.h"
-
 /**
  * Read one wordfrom file to char s*
  * returns word size 
@@ -18,9 +17,8 @@ int read_word(char *s, int max, FILE *f)
     int i = 0;
     for(; (c = fgetc(f));i++)
     {
-        if (c == ' ')
-            break;
-        else if(c == '\n')
+        if (c == ' ' || c == '\n' || c ==  '\f' ||\
+            c == '\r' || c == '\t' || c == '\v')
             break;
         else if(c == EOF)
             return EOF;

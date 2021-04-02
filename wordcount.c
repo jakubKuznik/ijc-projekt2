@@ -13,7 +13,8 @@
 
 int main(int argc, char *argv[])
 {
-    htab_init(ARR_SIZE); 
+    htab_t *table = htab_init(ARR_SIZE);
+     
 
     FILE *f; //Input file where we are geting words from 
     if((f = parser(argc, argv)) == NULL)

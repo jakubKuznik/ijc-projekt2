@@ -8,8 +8,12 @@
 #include "htab.h"
 
 
-
 htab_t *htab_init(size_t n)      // konstruktor tabulky
 {
-    return 0;
+    htab_t *table = NULL;
+
+    //table = (htab_t *)calloc(1, sizeof(htab_t*) + ); 
+
+    
+    return table;
 }
