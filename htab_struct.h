@@ -5,6 +5,11 @@
 // Declares structures for htab.h
 
 #include "htab.h"
+
+#ifndef __HTAB_STRUCT_H__
+#define __HTAB_STRUCT_H__
+
+
 /*
 +----------+
 | size     | // aktuální počet záznamů [(key,data),next]
@@ -38,3 +43,6 @@ struct htab_item
     htab_item *next;
 
 };
+
+
+#endif

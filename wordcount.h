@@ -7,7 +7,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "htab.h"
+//#include "htab.h"
+
+#ifndef __WORDCOUNT_H__
+#define __WORDCOUNT_H__
 
 #define MAX_WORD_SIZE 128
 
@@ -27,3 +30,5 @@ int read_word(char *s, int max, FILE *f);
 
 
 /*****************************************/
+
+#endif
