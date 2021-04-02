@@ -4,7 +4,7 @@
 // Compiled:    gcc 9.9.3.0
 // Count words in some text.
 
-#include <stdio.h>
+#include "wordcount.h"
 
 int main(int argc, char *argv[])
 {

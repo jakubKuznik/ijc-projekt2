@@ -6,12 +6,11 @@
 
 //ARGUMENTY SE MOHOU ZADAT V LIBOVOLNÉM POŘADÍ.
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <stdbool.h>
-
 #include "tail.h"
 
 //Indicate if there is + in -n +10 argument

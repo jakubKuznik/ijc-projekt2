@@ -9,6 +9,7 @@
 #include <stdbool.h>    // bool
 #include <stdint.h>
 
+
 // Tabulka:
 struct htab;    // neúplná deklarace struktury - uživatel nevidí obsah
 typedef struct htab htab_t;     // typedef podle zadání

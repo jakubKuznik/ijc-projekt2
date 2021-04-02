@@ -16,11 +16,15 @@ tail.o: tail.c tail.h
 
 ########### WORDCOUNT #############
 
-wordcount: wordcount.o libhtab.a
-	gcc $(CFLAGS) -o $@ $< -L . libhtab.a
-wordcount-dynamic: wordcount.o libhtab.so
-	gcc $(CFLAGS) -o $@ $< libhtab.so
+wordcount: wordcount.o io.o libhtab.a
+	gcc $(CFLAGS) -o $@ io.o $< -L . libhtab.a
+wordcount-dynamic: wordcount.o io.o libhtab.so
+	gcc $(CFLAGS) -o $@ io.o $< libhtab.so
 wordcount.o: wordcount.c
+	gcc $(CFLAGS) -c $< -o $@
+
+
+io.o: io.c 
 	gcc $(CFLAGS) -c $< -o $@
 
 # static library
