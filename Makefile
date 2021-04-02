@@ -60,6 +60,7 @@ htab_size.o: htab_size.c
 ###################################
 
 
+LD_LIBRARY_PATH="."
 clean:
 	rm *.o tail wordcount
 run: tail 

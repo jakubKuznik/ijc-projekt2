@@ -10,6 +10,10 @@
 
 #define MAX_WORD_SIZE 128
 
+/**
+ * Store input file or stdin to file 
+*/
+FILE *parser(int argc, char *argv[]);
 
 /*******************io.c******************/
 /**
