@@ -4,9 +4,9 @@
 // Compiled:    gcc 9.9.3.0
 // 
 
-
+#include <stdio.h>
+#include "htab_struct.h"
 #include "htab.h"
-
 
 htab_t *htab_init(size_t n)      // konstruktor tabulky
 {
