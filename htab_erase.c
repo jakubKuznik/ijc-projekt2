@@ -9,6 +9,9 @@
 #include "htab_struct.h"
 #include "htab.h"
 
+/**
+ * Remote given record 
+*/
 bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
 {
     return true;

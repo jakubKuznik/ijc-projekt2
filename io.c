@@ -13,6 +13,8 @@
  */
 int read_word(char *s, int max, FILE *f)
 {
+    if(s == NULL || f == NULL || max > MAX_WORD_SIZE)
+        return NULL;
     int c = 0;
     int i = 0;
     for(; (c = fgetc(f));i++)

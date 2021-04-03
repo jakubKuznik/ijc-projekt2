@@ -20,11 +20,17 @@ htab_t *htab_init(size_t n)      // konstruktor tabulky
         fprintf(stderr, "Error: Alocation malloc problem.");
         return NULL;
     }
-    for(unsigned i = 0; i < n; i++)
-        table->arr[i] = NULL;
-
+    
     table->arr_size = n;
     table->size = 0;
+    
+    for(unsigned i = 0; i < n; i++)
+    {
+
+        table->arr[i] = NULL;
+        //table->arr[i] = malloc(sizeof(htab_pair_t));
+    }
+
     
     return table;
 }

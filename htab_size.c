@@ -8,7 +8,9 @@
 #include "htab_struct.h"
 #include "htab.h"
 
-
+/**
+ * Returns hash table number of records.
+ */
 size_t htab_size(const htab_t *t)             // počet záznamů v tabulce
 {
     return t->size;

@@ -9,6 +9,7 @@
 #ifndef __HTAB_STRUCT_H__
 #define __HTAB_STRUCT_H__
 
+typedef struct htab_item htab_item;
 
 /*
 +----------+
@@ -26,21 +27,23 @@
 |ptr|--|
 +---+
 */
+/**
+ * Whole hash table.
+*/
 struct htab
 {
-    size_t size;
-    size_t arr_size;
-    htab_pair_t *arr[];
+    size_t size; // aktuální počet záznamů [(key,data),next]
+    size_t arr_size; // velikost následujícího pole ukazatelů
+    htab_item *arr[];
 };
 
-
-//zaznam [(key,value), next]
-typedef struct htab_item htab_item;
-
+/**
+ * One record in hash table 
+*/
 struct htab_item
 {
-    htab_pair_t pair;
-    htab_item *next;
+    htab_pair_t pair; // There is a key and value 
+    htab_item *next; // pointer to next record 
 
 };
 

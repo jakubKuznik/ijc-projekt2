@@ -5,11 +5,27 @@
 //
 
 
+#include "htab_struct.h"
+#include <stdlib.h>
 #include "htab.h"
 
-
+/**
+ *  
+ */
 void htab_clear(htab_t * t)    // ruší všechny záznamy
 {
     printf("htab_clear");
-    
+
+
+    for(int i = 0; i < htab_bucket_count(t); i++)
+    {
+        htab_item *t_help = t->arr[i];
+        while (t_help != NULL)
+        {
+            t_help = t->arr[i]->next;
+            free(t->arr[i]);
+            t->arr[i] = t_help;
+        }
+        
+    }
 }

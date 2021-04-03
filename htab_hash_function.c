@@ -5,6 +5,7 @@
 // 
 
 #include "htab.h"
+#include <stdint.h>
 
 size_t htab_hash_function(const char *str)
 {
