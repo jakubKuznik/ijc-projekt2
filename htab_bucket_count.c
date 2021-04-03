@@ -5,10 +5,11 @@
 //
 
 
+#include "htab_struct.h"
 #include "htab.h"
 
 
 size_t htab_bucket_count(const htab_t * t) // velikost pole
 {
-    return 0;
+    return t->arr_size;
 }   

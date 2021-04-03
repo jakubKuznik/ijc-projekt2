@@ -5,6 +5,7 @@
 // 
 
 
+#include "htab_struct.h"
 #include "htab.h"
 
 

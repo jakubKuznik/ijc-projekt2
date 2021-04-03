@@ -4,9 +4,9 @@
 // Compiled:    gcc 9.9.3.0
 // 
 
-#include <stdio.h>
 #include "htab_struct.h"
 #include "htab.h"
+
 
 /**
  * Table constructor.

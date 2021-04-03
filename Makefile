@@ -70,4 +70,8 @@ run: tail
 	./tail
 zip:
 	zip xkuzni04.zip *.c *.cc *.h Makefile
+git:
+	sudo git add *.c *.h Makefile
+	sudo git commit -m "Update."
+	sudo git push
 
