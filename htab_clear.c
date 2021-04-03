@@ -10,5 +10,6 @@
 
 void htab_clear(htab_t * t)    // ruší všechny záznamy
 {
+    printf("htab_clear");
     
 }

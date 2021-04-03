@@ -30,7 +30,7 @@ struct htab
 {
     size_t size;
     size_t arr_size;
-    htab_pair_t arr[];
+    htab_pair_t *arr[];
 };
 
 

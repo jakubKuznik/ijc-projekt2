@@ -14,7 +14,7 @@
 int main(int argc, char *argv[])
 {
     htab_t *table = htab_init(ARR_SIZE);
-     
+    htab_free(table);
 
     FILE *f; //Input file where we are geting words from 
     if((f = parser(argc, argv)) == NULL)
@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
 
     //todo if(wordcount == MAX_WORD_SIZE fprintf error )
+    
     return 0;
 
     

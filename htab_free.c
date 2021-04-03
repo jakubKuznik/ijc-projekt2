@@ -11,4 +11,6 @@
 void htab_free(htab_t * t)     // destruktor tabulky
 {
 
+    htab_clear(t);
+    free(t);
 }
