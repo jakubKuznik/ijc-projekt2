@@ -6,6 +6,7 @@
 
 #include "wordcount.h"
 #include "htab.h"
+#include "htab_struct.h"
 
 /* This is how is index in hash table calculate.*/
 //index = (htab_hash_function("mystring") % arr_size);
@@ -32,6 +33,17 @@ int main(int argc, char *argv[])
         }
     }
 
+    for(int i = 0; i < htab_bucket_count(table); i++)
+    {
+        htab_item *t_help = table->arr[i];
+        printf("\n");
+        while (t_help != NULL)
+        {
+            printf("%s %d  -->",t_help->pair.key, t_help->pair.value);
+            t_help = t_help->next;
+        }
+        
+    }
 
 
     //todo if(wordcount == MAX_WORD_SIZE fprintf error )

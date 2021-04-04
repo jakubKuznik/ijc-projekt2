@@ -47,8 +47,11 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
             fprintf(stderr, "Erorr Malloc.");
             return NULL;   
         }
+        //item_temp = malloc(sizeof(htab_pair_t));
         item_temp->pair.value = 1;
-        strncmp(item_temp->pair.key, key, strlen(key));
+        strncmp(item_temp->pair.key, key, strlen(key) + 1);
+        
+        item_temp->next = NULL;
         return item_temp;
     }
     else
@@ -60,7 +63,9 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
             return NULL;   
         }
         item_temp->next->pair.value = 1;
-        strncmp(item_temp->next->pair.key, key, strlen(key));
+        strncmp(item_temp->next->pair.key, key, strlen(key) + 1);
+        
+        item_temp->next->next = NULL;
         return item_temp->next;
     }
 

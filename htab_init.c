@@ -26,7 +26,6 @@ htab_t *htab_init(size_t n)      // konstruktor tabulky
     
     for(unsigned i = 0; i < n; i++)
     {
-
         table->arr[i] = NULL;
         //table->arr[i] = malloc(sizeof(htab_pair_t));
     }
