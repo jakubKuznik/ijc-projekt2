@@ -6,6 +6,7 @@
 
 #include "htab_struct.h"
 #include "htab.h"
+#include <stdlib.h>
 
 
 /**
