@@ -50,8 +50,8 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
         item_temp->pair.key = malloc(strlen(key) + 1);
         item_temp->pair.value = 1;
         strcpy(item_temp->pair.key, key);
-        
         item_temp->next = NULL;
+        t->arr[index] = item_temp;
         return item_temp;
     }
     else
@@ -67,6 +67,7 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
         strcpy(item_temp->next->pair.key, key);
         
         item_temp->next->next = NULL;
+        t->arr[index] = item_temp;
         return item_temp->next;
     }
 
