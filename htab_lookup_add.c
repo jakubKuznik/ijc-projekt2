@@ -26,28 +26,44 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
     }
     unsigned long index = (htab_hash_function(key) % t->arr_size);
 
-
     htab_item *item_temp = t->arr[index];
-    //Get to the end where new node will be added 
-    while (item_temp->next != NULL)
+    //Get to the end where new node will be added
+    if(item_temp != NULL)
     {
-        item_temp = item_temp->next;
-    }
-    
-    //alloc space for new item
-    item_temp->next = malloc(sizeof(htab_item));
-    if(item_temp->next == NULL)
-    {
-        fprintf(stderr, "Erorr Malloc.");
-        return NULL;   
-    }
+        while (item_temp->next != NULL)
+        {
+            item_temp = item_temp->next;
+        }
+    }  
+
     //TODO MALLOC KEY
     //item_temp->next->pair.key = malloc(sizeof htab_key_t)
+    //alloc space for new item
+    if(item_temp == NULL) //FOR FIRST NODE 
+    {
+        item_temp = malloc(sizeof(htab_item));
+        if(item_temp == NULL)
+        {
+            fprintf(stderr, "Erorr Malloc.");
+            return NULL;   
+        }
+        item_temp->pair.value = 1;
+        strncmp(item_temp->pair.key, key, strlen(key));
+        return item_temp;
+    }
+    else
+    {
+        item_temp->next = malloc(sizeof(htab_item));
+        if(item_temp->next == NULL)
+        {
+            fprintf(stderr, "Erorr Malloc.");
+            return NULL;   
+        }
+        item_temp->next->pair.value = 1;
+        strncmp(item_temp->next->pair.key, key, strlen(key));
+        return item_temp->next;
+    }
 
     //This is a new key so i set value to 1
-    item_temp->next->pair.value = 1;
-    strncmp(item_temp->next->pair.key, key, strlen(key));
-
-    return item_temp->next;
 
 }

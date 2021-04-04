@@ -19,9 +19,9 @@ void htab_clear(htab_t * t)    // ruší všechny záznamy
         htab_item *t_help = t->arr[i];
         while (t_help != NULL)
         {
-            t_help = t->arr[i]->next;
-            free(t->arr[i]);
-            t->arr[i] = t_help;
+            free(t_help);
+            t_help = t->arr[i];
+            t->arr[i] = t->arr[i]->next;
         }
         
     }

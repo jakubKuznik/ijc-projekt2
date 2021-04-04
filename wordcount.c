@@ -13,7 +13,6 @@
 int main(int argc, char *argv[])
 {
     htab_t *table = htab_init(ARR_SIZE);
-    htab_free(table);
 
 
     FILE *f; //Input file where we are geting words from 
@@ -22,15 +21,22 @@ int main(int argc, char *argv[])
 
 
     char one_word[MAX_WORD_SIZE] = {0};
+
+    //Read word by word and store them to hash table 
     while(read_word(one_word, MAX_WORD_SIZE, f) != EOF)
     {
-        printf("kolo rovno hovno\n");
+        //if there are multiple isspace symbols return '\0'
+        if(strlen(one_word) > 0)
+        {
+            htab_lookup_add(table, one_word);
+        }
     }
 
 
 
     //todo if(wordcount == MAX_WORD_SIZE fprintf error )
-    
+    fclose(f); 
+    htab_free(table);
     return 0;
 
     

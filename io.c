@@ -17,9 +17,10 @@ int read_word(char *s, int max, FILE *f)
 {
     if(s == NULL || f == NULL)
         return -1;
+
     int c = 0;
     int i = 0;
-    for(; (c = fgetc(f));i++)
+    while((c = fgetc(f)))
     {
         if (c == ' ' || c == '\n' || c ==  '\f' ||\
             c == '\r' || c == '\t' || c == '\v')
@@ -34,6 +35,11 @@ int read_word(char *s, int max, FILE *f)
 
     }
     s[i] = '\0';
+    // if there are multiple isspace symbols it ll skip them
+    if (s[0] == ' ' || s[0] == '\n' || s[0] ==  '\f' || s[0] == '\r' || s[0] == '\t' || s[0] == '\v')
+        return '\0';
+
+
     return i;
     
     
