@@ -49,7 +49,7 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
         }
         item_temp->pair.key = malloc(strlen(key) + 1);
         item_temp->pair.value = 1;
-        strncmp(item_temp->pair.key, key, strlen(key) + 1);
+        strcpy(item_temp->pair.key, key);
         
         item_temp->next = NULL;
         return item_temp;
