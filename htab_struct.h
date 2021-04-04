@@ -11,6 +11,11 @@
 
 typedef struct htab_item htab_item;
 
+
+/* This is how is index in hash table calculate.*/
+//index = (htab_hash_function("mystring") % arr_size);
+
+
 /*
 +----------+
 | size     | // aktuální počet záznamů [(key,data),next]

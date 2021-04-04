@@ -7,19 +7,25 @@
 #include "wordcount.h"
 #include "htab.h"
 
-//Number of elements in hash table.
-#define ARR_SIZE 17
-
+/* This is how is index in hash table calculate.*/
+//index = (htab_hash_function("mystring") % arr_size);
 
 int main(int argc, char *argv[])
 {
     htab_t *table = htab_init(ARR_SIZE);
     htab_free(table);
 
+
     FILE *f; //Input file where we are geting words from 
     if((f = parser(argc, argv)) == NULL)
         goto error_1;
 
+
+    char one_word[MAX_WORD_SIZE] = {0};
+    while(read_word(one_word, MAX_WORD_SIZE, f) != EOF)
+    {
+        printf("kolo rovno hovno\n");
+    }
 
 
 

@@ -5,16 +5,18 @@
 // Works like posix tail if does not get file read from stdin.
 
 //ARGUMENTY SE MOHOU ZADAT V LIBOVOLNÉM POŘADÍ.
-
+#include "htab_struct.h"
 #include "wordcount.h"
 /**
  * Read one wordfrom file to char s*
- * returns word size 
+ * returns word size
+ * return -1 if there is file error
+ * return EOF if there is end of file   
  */
 int read_word(char *s, int max, FILE *f)
 {
-    if(s == NULL || f == NULL || max > MAX_WORD_SIZE)
-        return NULL;
+    if(s == NULL || f == NULL)
+        return -1;
     int c = 0;
     int i = 0;
     for(; (c = fgetc(f));i++)
@@ -25,7 +27,7 @@ int read_word(char *s, int max, FILE *f)
         else if(c == EOF)
             return EOF;
 
-        if(i == MAX_WORD_SIZE-1)
+        if(i == max-1)
             break;
         
         s[i++] = c;
