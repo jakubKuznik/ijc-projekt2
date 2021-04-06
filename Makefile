@@ -62,8 +62,6 @@ htab_size.o: htab_size.c htab.h htab_struct.h
 	$(CC) -fPIC -c $<
 ###################################
 
-
-
 clean:
 	rm *.o tail wordcount
 run: tail 

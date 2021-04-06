@@ -22,7 +22,7 @@ void htab_clear(htab_t * t)    // ruší všechny záznamy
         {
             t_help_free = t_help;    
             t_help = t_help->next;
-            free(t_help_free->pair.key);
+            free((char*)t_help_free->pair.key);
             free(t_help_free);
         }
         t->arr[i] = NULL; 
