@@ -7,6 +7,7 @@
 
 #include "htab_struct.h"
 #include "htab.h"
+#include <stdlib.h>
 
 
 void htab_free(htab_t * t)     // destruktor tabulky

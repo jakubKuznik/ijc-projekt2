@@ -28,5 +28,4 @@ void htab_clear(htab_t * t)    // ruší všechny záznamy
         t->arr[i] = NULL; 
     }
     t->size = 0;
-    t->arr_size = 0;
 }

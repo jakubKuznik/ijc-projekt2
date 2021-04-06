@@ -20,7 +20,7 @@ htab_pair_t * htab_find(htab_t * t, htab_key_t key)  // hledání
     {
         if(strcmp(key, item_temp->pair.key) == 0)
         {
-            return item_temp; 
+            return &item_temp->pair; 
         }
         item_temp = item_temp->next;
     }

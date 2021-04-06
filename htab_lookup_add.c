@@ -34,11 +34,11 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
         }
     }  
 
-    //TODO MALLOC KEY
     //item_temp->next->pair.key = malloc(sizeof htab_key_t)
     //alloc space for new item
     if(item_temp == NULL) //FOR FIRST NODE 
     {
+        printf("!_");
         item_temp = malloc(sizeof(htab_item));
         if(item_temp == NULL)
         {
@@ -54,6 +54,7 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
     }
     else
     {
+        printf("@_");
         item_temp->next = malloc(sizeof(htab_item));
         if(item_temp->next == NULL)
         {

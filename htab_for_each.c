@@ -17,7 +17,7 @@ void htab_for_each(const htab_t * t, void (*f)(htab_pair_t *data))
     {
         while (t->arr[i]->next != NULL)
         {
-            f(t->arr[i]); //call function f for every record in table 
+            f(&t->arr[i]->pair); //call function f for every record in table 
         }
     }    
 }
