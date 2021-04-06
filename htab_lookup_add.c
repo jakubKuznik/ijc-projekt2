@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "htab.h"
 #include "htab_struct.h"
+#include <stdbool.h>
 
 /**
  * Add given key to hash table. 
@@ -27,51 +28,43 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
     htab_item *item_temp = t->arr[index];
     //Get to the end where new node will be added
     if(item_temp != NULL)
-    {
-        printf("tru");
         while (item_temp->next != NULL)
-        {
-            printf("X.");
             item_temp = item_temp->next;
-        }
-    }  
 
     //item_temp->next->pair.key = malloc(sizeof htab_key_t)
     //alloc space for new item
+    bool firts_item = false;
     if(item_temp == NULL) //FOR FIRST NODE 
     {
-        printf("!_");
+        firts_item = true;
         item_temp = malloc(sizeof(htab_item));
         if(item_temp == NULL)
-        {
-            fprintf(stderr, "Erorr Malloc.");
-            return NULL;   
-        }
-        item_temp->pair.key = malloc(strlen(key) + 1);
-        item_temp->pair.value = 0;
-        strcpy((char*)item_temp->pair.key, key);
-        item_temp->next = NULL;
-        t->arr[index] = item_temp;
-        return &item_temp->pair;
+            goto error_malloc;
     }
     else
     {
-        printf("@_");
         item_temp->next = malloc(sizeof(htab_item));
         item_temp = item_temp->next;
         if(item_temp == NULL)
-        {
-            fprintf(stderr, "Erorr Malloc.");
-            return NULL;   
-        }
-        item_temp->pair.key = malloc(strlen(key) + 1);
-        item_temp->pair.value = 0;
-        strcpy((char*)item_temp->pair.key, key);
-        
-        item_temp->next = NULL;
-        return &item_temp->pair;
+            goto error_malloc;
     }
 
-    //This is a new key so i set value to 1
+    // Allocate space for key 
+    item_temp->pair.key = malloc(strlen(key) + 1);
+    if(item_temp->pair.key == NULL)
+        goto error_malloc;
+
+    // set asocial value to 0 and copy given string to key
+    item_temp->pair.value = 0;
+    strcpy((char*)item_temp->pair.key, key);
+    if(firts_item)
+        t->arr[index] = item_temp;
+    
+    return &item_temp->pair;
+
+
+error_malloc:
+    fprintf(stderr, "Erorr Malloc.");
+    return NULL;
 
 }
