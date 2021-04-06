@@ -7,54 +7,67 @@
 #include "wordcount.h"
 #include "htab.h"
 #include "htab_struct.h"
-
-/* This is how is index in hash table calculate.*/
-//index = (htab_hash_function("mystring") % arr_size);
+#include <stdbool.h>
 
 int main(int argc, char *argv[])
 {
-    htab_t *table = htab_init(ARR_SIZE);
-
-
-    FILE *f; //Input file where we are geting words from 
+    htab_t *table = htab_init(ARR_SIZE); //Creating hash table 
+    FILE *f = NULL;                     //Input file where we are geting words from 
     if((f = parser(argc, argv)) == NULL)
         goto error_1;
 
 
-    char one_word[MAX_WORD_SIZE] = {0};
-
+    char one_word[MAX_WORD_SIZE] = {0};  //here i store one word 
+    int word_len = 0;                    
+    bool word_overflow = false;          //If max word size was ever reached the word was cut and var set to true 
+    htab_pair_t *return_record = NULL;   //Store output of htab_add
+    
     //Read word by word and store them to hash table 
-    while(read_word(one_word, MAX_WORD_SIZE, f) != EOF)
+    while((word_len = read_word(one_word, MAX_WORD_SIZE, f)) != EOF)
     {
+        if(word_len == MAX_WORD_SIZE - 1)
+            word_overflow = true;
+
         //if there are multiple isspace symbols return '\0'
         if(strlen(one_word) > 0)
-        {
-            htab_lookup_add(table, one_word);
-        }
+            if((return_record = htab_lookup_add(table, one_word)) == NULL)
+                goto error_malloc;
+        // Calculate number of ocurrencess 
+        return_record->value = return_record->value + 1;
+
     }
 
     for(long unsigned int i = 0; i < htab_bucket_count(table); i++)
     {
         htab_item *t_help = table->arr[i];
-        printf("\n");
         while (t_help != NULL)
         {
             printf("%s %d  -->",t_help->pair.key, t_help->pair.value);
             t_help = t_help->next;
         }
+        printf("\n");
         
     }
 
 
     //todo if(wordcount == MAX_WORD_SIZE fprintf error )
+    if(word_overflow)
+        fprintf(stderr,"Error word was longer then MAX_WORD_SIZE\n");
+    
     fclose(f); 
     htab_free(table);
     return 0;
 
     
 error_1:
-    fprintf(stderr, "Error cant open file or file doesnt exist.");
+    fprintf(stderr, "Error cant open file or file doesnt exist.\n");
     return -1;
+
+error_malloc:
+    fprintf(stderr, "Error malloc.\n");
+    fclose(f); 
+    htab_free(table);
+
 
 }
 

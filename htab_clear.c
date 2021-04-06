@@ -2,7 +2,7 @@
 // File:        htab_clear.c
 // Author:      Jakub Kuzník, FIT
 // Compiled:    gcc 9.9.3.0
-//
+// Free memeory that was alocated for hash table keys and pairs.
 
 
 #include "htab_struct.h"
@@ -10,7 +10,7 @@
 #include "htab.h"
 
 /**
- *  
+ * Free memeory that was alocated for hash table keys and pairs.
  */
 void htab_clear(htab_t * t)    // ruší všechny záznamy
 {

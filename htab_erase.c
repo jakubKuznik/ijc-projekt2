@@ -10,9 +10,17 @@
 #include "htab.h"
 
 /**
- * Remote given record 
+ * Remote given record (pair)
+ * return true if succes.
 */
 bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
 {
+    // Try to find given key 
+    htab_pair_t *record = htab_find(t, key);
+    if(record == NULL)
+        return false;
+
+
+
     return true;
 }

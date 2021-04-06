@@ -34,6 +34,14 @@ int read_word(char *s, int max, FILE *f)
         s[i++] = c;
 
     }
+
+    //IF WOROD WAS TO LONG 
+    if(i == max-1)
+        while ((c = fgetc(f)))
+            if (c == ' ' || c == '\n' || c ==  '\f' ||\
+                c == '\r' || c == '\t' || c == '\v')
+                break;
+    
     s[i] = '\0';
     // if there are multiple isspace symbols it ll skip them
     if (s[0] == ' ' || s[0] == '\n' || s[0] ==  '\f' || s[0] == '\r' || s[0] == '\t' || s[0] == '\v')
