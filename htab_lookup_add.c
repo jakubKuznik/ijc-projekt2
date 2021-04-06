@@ -28,8 +28,10 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
     //Get to the end where new node will be added
     if(item_temp != NULL)
     {
+        printf("tru");
         while (item_temp->next != NULL)
         {
+            printf("X.");
             item_temp = item_temp->next;
         }
     }  
@@ -67,7 +69,6 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
         strcpy((char*)item_temp->pair.key, key);
         
         item_temp->next = NULL;
-        t->arr[index] = item_temp;
         return &item_temp->pair;
     }
 
