@@ -56,18 +56,19 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
     {
         printf("@_");
         item_temp->next = malloc(sizeof(htab_item));
-        if(item_temp->next == NULL)
+        item_temp = item_temp->next;
+        if(item_temp == NULL)
         {
             fprintf(stderr, "Erorr Malloc.");
             return NULL;   
         }
-        item_temp->next->pair.key = malloc(strlen(key) + 1);
-        item_temp->next->pair.value = 0;
-        strcpy((char*)item_temp->next->pair.key, key);
+        item_temp->pair.key = malloc(strlen(key) + 1);
+        item_temp->pair.value = 0;
+        strcpy((char*)item_temp->pair.key, key);
         
-        item_temp->next->next = NULL;
+        item_temp->next = NULL;
         t->arr[index] = item_temp;
-        return &item_temp->next->pair;
+        return &item_temp->pair;
     }
 
     //This is a new key so i set value to 1
