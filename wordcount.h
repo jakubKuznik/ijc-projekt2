@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "htab.h"
 //#include "htab.h"
 
 #ifndef __WORDCOUNT_H__
@@ -18,6 +19,11 @@
 /*Number of elements in hash table.*/
 #define ARR_SIZE 17
 
+
+/**
+ * Print record.key (word) and its key (Number of occurrences)
+ */
+void print_record(htab_pair_t *record);
 
 /**
  * Store input file or stdin to file 

@@ -36,20 +36,9 @@ int main(int argc, char *argv[])
         return_record->value = return_record->value + 1;
 
     }
-    for(long unsigned int i = 0; i < htab_bucket_count(table); i++)
-    {
-        htab_item *t_help = table->arr[i];
-        while (t_help != NULL)
-        {
-            printf("%s %d  -->",t_help->pair.key, t_help->pair.value);
-            t_help = t_help->next;
-        }
-        printf("\n");
-        
-    }
 
+    htab_for_each(table, print_record);
 
-    //todo if(wordcount == MAX_WORD_SIZE fprintf error )
     if(word_overflow)
         fprintf(stderr,"Error word was longer then MAX_WORD_SIZE\n");
     
@@ -69,6 +58,14 @@ error_malloc:
 
 
 }
+/**
+ * Print record.key (word) and its key (Number of occurrences)
+ */
+void print_record(htab_pair_t *record)
+{
+    printf("%s\t%u\n",record->key, record->value);
+}
+
 
 /**
  * Store input file or stdin to file 
