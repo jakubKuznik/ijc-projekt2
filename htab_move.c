@@ -11,6 +11,7 @@
 /**
  * Move whole hash table data to new one 
  * Return Null if malloc is not succesfull
+ * n = new table size
  * */
 htab_t *htab_move(size_t n, htab_t *from)      // přesun dat do nové tabulky
 {
@@ -18,8 +19,9 @@ htab_t *htab_move(size_t n, htab_t *from)      // přesun dat do nové tabulky
     if(new_table == NULL)
         goto error_malloc;
 
-    // htab
-    for(unsigned long i = 0; i < n ; i++)
+
+    // Copy old table to new one 
+    for(unsigned long i = 0; i < from->arr_size ; i++)
     {
         htab_item *help = from->arr[i];
         while(&help != NULL)
