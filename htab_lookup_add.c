@@ -58,7 +58,7 @@ htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
     if(firts_item)
         t->arr[index] = item_temp;
     
-    t->size = t->size + 1;
+    t->size++;
     return &item_temp->pair;
 
 

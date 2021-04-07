@@ -33,7 +33,7 @@ bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
     htab_item *help_var = t->arr[index];
     
     // Get to position
-    while((strcmp(item_to_remove->pair.key, key) != 0) && (&item_to_remove->pair != NULL))
+    while((&item_to_remove->next != NULL) && (strcmp(item_to_remove->pair.key, key) != 0))
         item_to_remove = item_to_remove->next;
 
     //If key is on first place
@@ -42,9 +42,9 @@ bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
         t->arr[index] = t->arr[index]->next;
         free((char *)help_var->pair.key);
         free(help_var);
+        t->size--;
         return true;
     }
-
     //Get to possiton before record that i want erase 
     while(&help_var->next->pair != &item_to_remove->pair)
         help_var = help_var->next;
@@ -53,5 +53,6 @@ bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
     help_var->next = item_to_remove->next;
     free((char *)item_to_remove->pair.key);
     free(item_to_remove);
+    t->size--;
     return true;
 }
