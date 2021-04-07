@@ -67,7 +67,7 @@ clean:
 run: tail 
 	./tail
 zip:
-	zip xkuzni04.zip *.c *.cc *.h Makefile
+	zip xkuzni04.zip *.c *.h Makefile
 git:
 	sudo git add *.c *.h Makefile
 	sudo git commit -m "Update."
