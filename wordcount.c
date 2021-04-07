@@ -6,7 +6,6 @@
 
 #include "wordcount.h"
 #include "htab.h"
-#include "htab_struct.h"
 #include <stdbool.h>
 
 int main(int argc, char *argv[])
@@ -37,6 +36,7 @@ int main(int argc, char *argv[])
 
     }
 
+    //print every record in table using print_record() function
     htab_for_each(table, print_record);
 
     if(word_overflow)
