@@ -33,7 +33,7 @@ bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
     htab_item *help_var = t->arr[index];
     
     // Get to position
-    while((&item_to_remove->next != NULL) && (strcmp(item_to_remove->pair.key, key) != 0))
+    while((strcmp(item_to_remove->pair.key, key) != 0))
         item_to_remove = item_to_remove->next;
 
     //If key is on first place

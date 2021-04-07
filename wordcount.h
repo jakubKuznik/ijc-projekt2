@@ -13,12 +13,6 @@
 #ifndef __WORDCOUNT_H__
 #define __WORDCOUNT_H__
 
-/*Max word lenght.*/
-#define MAX_WORD_SIZE 128
-
-/*Number of elements in hash table.*/
-#define ARR_SIZE 17
-
 
 /**
  * Print record.key (word) and its key (Number of occurrences)
