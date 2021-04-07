@@ -36,10 +36,6 @@ int main(int argc, char *argv[])
         return_record->value = return_record->value + 1;
 
     }
-
-    htab_erase(table, "dost");
-    htab_erase(table, "obcas");
-    
     for(long unsigned int i = 0; i < htab_bucket_count(table); i++)
     {
         htab_item *t_help = table->arr[i];
