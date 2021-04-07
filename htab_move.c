@@ -24,18 +24,16 @@ htab_t *htab_move(size_t n, htab_t *from)      // přesun dat do nové tabulky
     for(unsigned long i = 0; i < from->arr_size ; i++)
     {
         htab_item *help = from->arr[i];
-        while(&help != NULL)
+        while(help != NULL)
         {
             htab_pair_t *retunt_poniter = htab_lookup_add(new_table, help->pair.key);
-            retunt_poniter->key = retunt_poniter->key + 1;
+            retunt_poniter->value = help->pair.value;
             help = help->next;
-        }    
+        }   
+
     }
 
-    new_table->arr_size = from->arr_size;
     new_table->size = from->size;
-
-    htab_free(from);
     return new_table;
 
 error_malloc:
