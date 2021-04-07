@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
 
     }
 
+    htab_erase(table, "dost");
+
     for(long unsigned int i = 0; i < htab_bucket_count(table); i++)
     {
         htab_item *t_help = table->arr[i];

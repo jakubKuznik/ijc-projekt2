@@ -18,9 +18,7 @@
 htab_pair_t * htab_lookup_add(htab_t * t, htab_key_t key)
 {
     htab_pair_t *temp = NULL;
-    //If 
-    temp = htab_find(t, key);
-    if(temp != NULL)
+    if((temp = htab_find(t, key)) != NULL)
         return temp;
     
     unsigned long index = (htab_hash_function(key) % t->arr_size);
