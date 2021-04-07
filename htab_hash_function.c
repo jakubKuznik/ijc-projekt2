@@ -2,11 +2,14 @@
 // File:        htab_hash_function.c
 // Author:      Jakub Kuzník, FIT
 // Compiled:    gcc 9.9.3.0
-// 
+// Hash function for calculating string index in table  
 
 #include "htab.h"
 #include <stdint.h>
 
+/**
+ * Hash function for calculating string index in table  
+*/ 
 size_t htab_hash_function(const char *str)
 {
     uint32_t h=0;     // musí mít 32 bitů

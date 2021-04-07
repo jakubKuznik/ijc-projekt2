@@ -2,7 +2,7 @@
 // File:        htab_lookup_adc.c
 // Author:      Jakub Kuzník, FIT
 // Compiled:    gcc 9.9.3.0
-//
+// Add given key(string) to hash table.
 
 #include <stdlib.h>
 #include "htab.h"

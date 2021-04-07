@@ -2,7 +2,7 @@
 // File:        htab_init.c
 // Author:      Jakub Kuzník, FIT
 // Compiled:    gcc 9.9.3.0
-// 
+// Table constructor 
 
 #include "htab_struct.h"
 #include "htab.h"
