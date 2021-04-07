@@ -40,8 +40,8 @@ bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
     if (&help_var->pair == &item_to_remove->pair)
     {
         t->arr[index] = t->arr[index]->next;
-        free(&help_var->pair.key);
-        free(&help_var->pair);
+        free((char *)help_var->pair.key);
+        free(help_var);
         return true;
     }
 
@@ -51,7 +51,7 @@ bool htab_erase(htab_t * t, htab_key_t key)    // ruší zadaný záznam
 
 
     help_var->next = item_to_remove->next;
-    free(&item_to_remove->pair.key);
-    free(&item_to_remove->pair);
+    free((char *)item_to_remove->pair.key);
+    free(item_to_remove);
     return true;
 }
