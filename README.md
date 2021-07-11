@@ -1,5 +1,12 @@
 # ijc-projekt2
 
+FIT VUT <br />
+IJC - Jazyk C <br />
+2.projekt <br /><br />
+
+
+
+
 ULOHA 1: tail utilita
 Vypíše n posledních řádku souboru, nebo při přidání '+' vypíše soubor od n řádku do konce. Není-li zadán soubor očekává vstup ze stdin.
 
