@@ -2,7 +2,8 @@
 
 FIT VUT <br />
 IJC - Jazyk C <br />
-2.projekt <br /><br />
+2.projekt <br />
+Points: 11/15<br /><br />
 
 
 
